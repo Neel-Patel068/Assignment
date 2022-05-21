@@ -14,7 +14,20 @@ Note that the width of the left column should always be 300px
 */
 
 // global variables
+// console.log(json);
+var allitems=[];
+fetch('./items.json')
+  .then(response => response.json())
+  .then((data )=> 
+  {
+    //   console.log(data);
+      allitems=data;
+      updateLeft();
+      updateRight();
+  })
+  .catch(error => console.log(error));
 
+/*
 const allitems = [
     {
         "previewImage": "https://images.unsplash.com/photo-1561948955-570b270e7c36?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80",
@@ -37,24 +50,22 @@ const allitems = [
         "title": "interns-performance-report-may-2022.key"
     }
 ];
-
-
-
-
+*/
 
 const left = document.querySelector(".left");
 const right = document.querySelector(".right");
 var currentlySelectedImg = 0;
-// leftcolumn.innerHTML = "<h1>How are you?</h1>"
+var previouslySelectedImg = 0;
 
 const cropTitle = function(title) {
-    if(title.length<= 30 ) 
+    const maxPossibleLength = 27;
+    if(title.length<= maxPossibleLength ) 
     {
         return title;
     }
     else 
     {
-        let updatedTitle= title.slice(0,15)+"..." + title.slice(-15);
+        let updatedTitle= title.slice(0,13)+"..." + title.slice(-14);
         return updatedTitle;
     }
 }
@@ -64,33 +75,31 @@ const updateLeft = function () {
     unorderdList.innerHTML = "";
     allitems.forEach((item,index)=>{
         const row= document.createElement("li");
-        row.innerHTML = `<img src=${allitems[index].previewImage} class="crop"> <span> ${cropTitle(allitems[index].title)}</span>`;
-        console.log(cropTitle(allitems[index].title));
+        row.innerHTML = `<img src=${allitems[index].previewImage} id=${index} class="crop"> <span> ${cropTitle(allitems[index].title)}</span>`;
+        // console.log(cropTitle(allitems[index].title));
         unorderdList.append(row);
         row.addEventListener("click",()=>{
+            previouslySelectedImg = currentlySelectedImg;
             currentlySelectedImg=index;
-            // console.log("I am clicked",index);
             updateRight();
         });
     });
-
-
     left.append(unorderdList);
-    
 }
 
 const updateRight = function () {
-    // let rightTitle = allitems[currentlySelectedImg].title; 
+    heightLightLeft();
     const rightImg = right.querySelector(".bigImg");
     const rightTitle = right.querySelector(".rightTitle");
     rightImg.setAttribute("src",allitems[currentlySelectedImg].previewImage);
     rightTitle.setAttribute("contenteditable","true");
     rightTitle.innerText = allitems[currentlySelectedImg].title;
     rightTitle.addEventListener("blur",()=>{
-        console.log("I am blur now");
-        console.log(rightTitle.innerHTML);
         allitems[currentlySelectedImg].title = rightTitle.innerHTML;
+        // console.log("Blur clicked.", previouslySelectedImg,currentlySelectedImg);
+        
         updateLeft();
+        heightLightLeft();
     });
 }
 
@@ -100,11 +109,11 @@ const updateRight = function () {
 // keyboard eventListener
 
 window.addEventListener("keydown",(event)=>{
-    // console.log(event.key);
     if(event.key == "ArrowDown")
     {
         if(currentlySelectedImg+1 < allitems.length)
         {
+            previouslySelectedImg = currentlySelectedImg;
             currentlySelectedImg++;
             updateRight();
         }
@@ -113,13 +122,14 @@ window.addEventListener("keydown",(event)=>{
     {
         if(currentlySelectedImg -1 >= 0)
         {
+            previouslySelectedImg = currentlySelectedImg;
             currentlySelectedImg--;
             updateRight();
         }
     }
-    // updateRight();
 });
 
-
-updateLeft();
-updateRight();
+const heightLightLeft = function (){
+    document.querySelectorAll("li")[previouslySelectedImg].classList.remove("active");
+    document.querySelectorAll("li")[currentlySelectedImg].classList.add("active");
+}
