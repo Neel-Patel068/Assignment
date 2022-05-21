@@ -1,0 +1,51 @@
+body{
+    /* background-color: red; */
+    /* align-items: center; */
+    /* text-align: center; */
+}
+ul{
+    list-style: none;
+}
+
+
+
+.container{
+    /* display: inline-block; */
+    /* align-self: center; */
+    width: 900px;
+    height: 1000px;
+    background-color: red;
+    margin: auto;
+    display: flex;
+}
+.leftcolumn{
+    display: inline-block;
+    background-color: green;
+    width: 300px;
+    overflow: hidden;
+
+}
+
+
+.rightcolumn{
+    display: inline-block;
+    background-color: pink;
+    width: 600px;
+    text-align: center;
+}
+
+
+
+/*    image crop  */
+ img.crop{
+  width:30px;
+  height:30px;
+  /* position: fixed;  */
+  /* clip: rect(0px,200px, 150px, 0px); */
+  
+}
+
+.bigImg{
+    height:800px ;
+    width:500px;
+}
