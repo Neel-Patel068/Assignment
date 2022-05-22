@@ -19,11 +19,11 @@ var previouslySelectedImg = 0;                  // previously selected image ind
 
 // this function cut the title text if it is larger than max possible length 
 const cropTitle = function(title) {
-    const maxPossibleLength = 20;
-    if(title.length<= maxPossibleLength ) 
+    const maxPossibleLength = 30;
+    if(title.length<= maxPossibleLength) 
         return title;
     else 
-        return title.slice(0,10)+"..." + title.slice(-10);;
+        return title.slice(0,14)+"..." + title.slice(-13);
 }
 
 // This function will update the left column
@@ -32,7 +32,14 @@ const updateLeft = function () {
     unorderdList.innerHTML = "";
     allitems.forEach((item,index)=>{
         const row= document.createElement("li");
-        row.innerHTML = `<img src=${allitems[index].previewImage} id=${"id"+index} class="crop"> <span> ${cropTitle(allitems[index].title)}</span>`;
+        row.innerHTML = `
+        <div class="leftImage">
+            <img src=${allitems[index].previewImage} id=${"id"+index} class="crop"> 
+        </div>
+        <div class="leftTitle">
+            <span> ${cropTitle(allitems[index].title)}</span>
+        </div>
+        `;
         unorderdList.append(row);
         row.addEventListener("click",()=>{
             previouslySelectedImg = currentlySelectedImg;
@@ -46,14 +53,20 @@ const updateLeft = function () {
 const updateRight = function () {
     heightLightLeft();
     const rightImg = right.querySelector(".bigImg");
-    const rightTitle = right.querySelector(".rightTitle");
     rightImg.setAttribute("src",allitems[currentlySelectedImg].previewImage);
-    rightTitle.setAttribute("contenteditable","true");
-    rightTitle.innerText = allitems[currentlySelectedImg].title;
-    rightTitle.addEventListener("blur",()=>{
+
+    const rightTitleWarp = right.querySelector(".rightImgWarp");
+    const rightTitle = rightTitleWarp.querySelector("span");
+    rightTitle.innerHTML = allitems[currentlySelectedImg].title ;
+
+    rightTitle.addEventListener("input",(event)=>{
+        //console.log("I am Input ",rightTitle.innerHTML);
         allitems[currentlySelectedImg].title = rightTitle.innerHTML;
         updateLeft();
         heightLightLeft();
+    });
+    rightTitleWarp.addEventListener("input",()=>{
+
     });
 }
 
