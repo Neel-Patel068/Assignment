@@ -5,7 +5,7 @@ li{
     padding-top: 10px;
     padding-bottom: 10px;
     padding: 10px 0px 10px 0px;
-    border-radius: 1 rem;
+    border-radius: 0.05 rem;
     margin-top: 5px;
     margin-bottom: 5px;
 }
@@ -44,15 +44,18 @@ li{
 
 /*    image crop  */
  img.crop{
-  width:30px;
-  height:30px;
+  width:50px;
+  height:50px;
   padding-left: 5px;
   padding-right: 5px;
-
+  border-radius: 20%;
+    object-fit: cover;
 }
 
 .bigImg{
     height:800px ;
-    width:600px;
+    width:100%;
     margin-left: 10px;
+    object-fit: cover;
+    border-radius: 1%;
 }
