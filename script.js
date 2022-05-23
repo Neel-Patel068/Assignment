@@ -60,7 +60,6 @@ const updateRight = function () {
     rightTitle.innerHTML = allitems[currentlySelectedImg].title ;
 
     rightTitle.addEventListener("input",(event)=>{
-        //console.log("I am Input ",rightTitle.innerHTML);
         allitems[currentlySelectedImg].title = rightTitle.innerHTML;
         updateLeft();
         heightLightLeft();

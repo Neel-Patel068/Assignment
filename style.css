@@ -1,51 +1,29 @@
-ul{
-    list-style: none;
-}
-li{
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding: 10px 0px 10px 0px;
-    border-radius: 0.05 rem;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    display: flex;
-    flex-direction: row;
-}
-
-
-
-.leftImage
-{
-    align-self: center;
-}
-.leftTitle{
-    align-self: center;
-}
-
-.container{
-    width: 900px;
-    height: 800px;
-    /* background-color: red; */
-
-    margin: auto;
-    margin-top: 40px;
-    display: flex;
-}
-.leftcolumn{
-    display: inline-block;
-    /* background-color: green; */
-    width: 300px;
-    overflow: hidden;
-
-}
-
-
-.rightcolumn{
-     /* background-color: pink; */
-    display: inline-block;
-    width: 600px;
+*{
     text-align: center;
 }
+ul .List{
+    list-style: none;
+    overflow: scroll;
+}
+.List li{
+        padding-top: 10px;
+        padding-bottom: 10px;
+        padding: 10px 0px 10px 0px;
+        border-radius: 0.05 rem;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: center;
+}
+
+
+
+.container{
+    display: block;
+}
+
 
 .active{
     background-color:#007bff;
@@ -71,13 +49,47 @@ li{
   padding-left: 5px;
   padding-right: 5px;
   border-radius: 20%;
-    object-fit: cover;
+  object-fit: cover;
 }
 
+/* Right Column Image */
 .bigImg{
-    height:800px;
+    height:100%;
     width:100%;
     margin-left: 10px;
     object-fit: cover;
     border-radius: 1%;
 }
+
+
+@media (min-width: 900px){
+    /* for desktop */
+    .container{
+        width: 900px;
+        height: 95vh;
+        margin: auto;
+        margin-top: 40px;
+        display: flex;
+    }
+
+    .leftcolumn{
+        display: inline-block;
+        width: 300px;
+        overflow: hidden;
+    }
+
+    .rightcolumn{
+        display: inline-block;
+        width: 600px;
+        text-align: center;
+    }
+    .leftImage, .leftTitle
+    {
+        align-self: center;
+    }
+    .bigImg{
+        height:85vh;
+        width:100%;
+    }
+}
+  
