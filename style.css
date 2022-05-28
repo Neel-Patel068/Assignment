@@ -1,5 +1,10 @@
+:root{
+    --my-font:1rem;
+}
 *{
     text-align: center;
+    font-size: var(--my-font);
+    /* font-size: 1.8rem; */
 }
 ul .List{
     list-style: none;
@@ -17,7 +22,10 @@ ul .List{
         align-items: center;
         align-content: center;
 }
-
+li:hover{
+    background-color: rgb(211, 207, 207);
+    border-radius: 10px;
+}
 
 .container{
     display: block;
@@ -25,7 +33,7 @@ ul .List{
 
 
 .active{
-    background-color:#007bff;
+    background-color:#007bff !important;
     border-radius: 10px;
 }
 .rightTitle{
@@ -39,6 +47,12 @@ ul .List{
     height: 100px;
     width: 100%;
 }
+.leftTitleText{
+    display: inline-block;
+    /* overflow: visible; */
+    width: auto;
+}
+
 
 
 /*    image crop  */

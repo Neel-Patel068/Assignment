@@ -11,19 +11,39 @@ fetch('./items.json')
   })
   .catch(error => console.log(error));
 
-
 const left = document.querySelector(".left");     // left component which contains the unorderd list 
 const right = document.querySelector(".right");   //  right component which contains the image and caption 
 var currentlySelectedImg = 0;                   // currentky selected image index
 var previouslySelectedImg = 0;                  // previously selected image index
 
 // this function cut the title text if it is larger than max possible length 
-const cropTitle = function(title) {
-    const maxPossibleLength = 30;
-    if(title.length<= maxPossibleLength) 
-        return title;
-    else 
-        return title.slice(0,14)+"..." + title.slice(-13);
+// we have to make width of text less than upperlimit
+const cropTitle = function(text,upperlimit) {
+    let text_width = text.getBoundingClientRect().width;
+    if(text_width < upperlimit) return;     // if title is already small then no need to modify it => return immediately
+
+    let data=text.innerText;
+
+    // we will do binary search for getting valid title
+    let left=0,right=data.length-1;    // left and right boundry
+    let save=data; // final string with adjusted size will be in save varible.  
+    while(left<=right)
+    {
+        let mid=(left+right)/2;
+        text.innerText = data.slice(0,mid)+'...'+data.slice(-mid);
+        text_width = text.getBoundingClientRect().width;
+
+        if(text_width >= upperlimit)
+        {
+            right = mid-1;
+        }
+        else
+        {
+            save=text.innerText;
+            left=mid+1;
+        }
+    }
+    text.innerText= save;
 }
 
 // This function will update the left column
@@ -37,7 +57,7 @@ const updateLeft = function () {
             <img src=${allitems[index].previewImage} id=${"id"+index} class="crop"> 
         </div>
         <div class="leftTitle">
-            <span> ${cropTitle(allitems[index].title)}</span>
+            <span class="leftTitleText"> ${allitems[index].title}</span>
         </div>
         `;
         unorderdList.append(row);
@@ -46,6 +66,10 @@ const updateLeft = function () {
             currentlySelectedImg=index;
             updateRight();
         });
+        const text= row.querySelector("span");
+        const image = row.querySelector("img");
+        const upperlimit = row.getBoundingClientRect().width-image.getBoundingClientRect().width;
+        cropTitle(text,upperlimit);
     });
 }
 
@@ -64,9 +88,6 @@ const updateRight = function () {
         updateLeft();
         heightLightLeft();
     });
-    rightTitleWarp.addEventListener("input",()=>{
-
-    });
 }
 
 // keyboard eventListener detects the arrow up and down, and response accordingly
@@ -83,6 +104,11 @@ window.addEventListener("keydown",(event)=>{
         currentlySelectedImg--;
         updateRight();
     }
+});
+
+// if window size is changed then update the right title according to it.
+window.addEventListener('resize', function(event){
+    updateLeft();
 });
 
 const heightLightLeft = function () {
